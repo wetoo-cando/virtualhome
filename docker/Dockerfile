@@ -1,5 +1,6 @@
 # Based off of python:3.6-slim, except that we are using ubuntu instead of debian.
-FROM ubuntu:16.04
+#FROM ubuntu:16.04
+FROM nvidia/opengl:1.0-glvnd-runtime-ubuntu16.04
 
 
 # ensure local python is preferred over distribution python
@@ -12,12 +13,17 @@ ENV LANG C.UTF-8
 # runtime dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
 		ca-certificates \
+		mlocate psmisc \
+		ffmpeg \
 		libexpat1 \
 		libffi6 \
 		libgdbm3 \
 		libreadline6 \
 		libsqlite3-0 \
 		libssl1.0.0 \
+		libglib2.0-0 \
+		libsm6 \
+		libxrender-dev \
 	&& rm -rf /var/lib/apt/lists/*
 
 ENV GPG_KEY 0D96DF4D4110E5C43FBFB17F2D347EA6AA65421D
@@ -116,15 +122,18 @@ RUN set -ex; \
 		\) -exec rm -rf '{}' +; \
 	rm -f get-pip.py
 
+RUN pip install jupyter
+RUN pip install certifi==2019.3.9 chardet==3.0.4 idna==2.8 numpy==1.16.2 opencv-python==4.0.0.21 Pillow==6.2.0 requests==2.21.0 termcolor==1.1.0 tqdm==4.31.1 urllib3>=1.24.2 plotly==3.10 networkx==2.3 matplotlib
+
 COPY ./run_sim.sh /
 
 RUN apt-get update && apt-get -y upgrade
 
 # xvfb is used to do CPU based rendering of Unity
-RUN apt-get install -y xvfb
+#RUN apt-get install -y xvfb
 
 
 # port 8080 is the port used in in Editor training.
 EXPOSE 8080
 
-ENTRYPOINT ["./run_sim.sh"]i
+#ENTRYPOINT ["./run_sim.sh"]i
