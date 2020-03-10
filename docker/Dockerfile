@@ -125,7 +125,7 @@ RUN set -ex; \
 RUN pip install jupyter
 RUN pip install certifi==2019.3.9 chardet==3.0.4 idna==2.8 numpy==1.16.2 opencv-python==4.0.0.21 Pillow==6.2.0 requests==2.21.0 termcolor==1.1.0 tqdm==4.31.1 urllib3>=1.24.2 plotly==3.10 networkx==2.3 matplotlib
 
-COPY ./run_sim.sh /
+#COPY ./run_sim.sh /
 
 RUN apt-get update && apt-get -y upgrade
 
